@@ -1,7 +1,9 @@
 package com.example.contatosandroid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -21,21 +23,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
 
-        //XML é uma "estrutura vazia" achatada em texto, e inflar é dar "volume" a ela, criando os objetos de verdade.
-
-        //inflate() é um método que precisa de uma ferramenta pra fazer esse trabalho — essa ferramenta é o LayoutInflater,
-        // uma classe do próprio Android especializada em ler XML e gerar as Views
-        binding = ActivityMainBinding.inflate(getLayoutInflater());// transforma XML em objetos de View de verdade na memoria
-                                                                    // e guarda a referencia de cada u dentro de binging
-        setContentView(binding.getRoot());// Use essa arvore de views como conteudo de tela
-
-        Log.d("MainActivity","App iniciado");
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot()); // Primeiro monta a tela
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        Log.d("MainActivity","App iniciado");
 
         binding.buttonCumprimentar.setOnClickListener(v -> {
             String nome = binding.editTextNome.getText().toString().trim();
@@ -45,7 +42,12 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            binding.textViewResultado.setText("Olá, " + nome + "!");
+            //binding.textViewResultado.setText("Olá, " + nome + "!");
+
+            Intent intent = new Intent(MainActivity.this,TelaDetalheActivity.class);
+            intent.putExtra("nome_enviar",nome);
+            startActivity(intent);
         });
     }
+
 }
