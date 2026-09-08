@@ -2,6 +2,10 @@ package com.example.contatosandroid;
 
 public class Contato {
 
+    public Contato(String nome, String telefone) {
+        this.nome = nome;
+        this.telefone = telefone;
+    }
     private String nome;
     private String telefone;
 

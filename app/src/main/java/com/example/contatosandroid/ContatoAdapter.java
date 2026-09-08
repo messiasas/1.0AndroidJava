@@ -26,7 +26,7 @@ public class ContatoAdapter extends RecyclerView.Adapter<ContatoAdapter.ContatoA
     * essa view já embrulhada num ContatoAdapterHolder, pronta para ser exibida ( mas ainda sem dados preenchidos, iss é função do onBindViewHolder
     *
     * */
-    public ContatoAdapter.ContatoAdapterHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ContatoAdapter.ContatoAdapterHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) { // segunda chamada, cada chamada infla um item_contato.xml novo e devolve um ContatoAdapterHolder
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_contato, parent, false); // assinatura
 
         return new ContatoAdapterHolder(itemView);
@@ -37,19 +37,18 @@ public class ContatoAdapter extends RecyclerView.Adapter<ContatoAdapter.ContatoA
     * visual especifico com o nome e telefone dele
     * */
     @Override
-    public void onBindViewHolder(@NonNull ContatoAdapter.ContatoAdapterHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ContatoAdapter.ContatoAdapterHolder holder, int position) { // terceira chamada, aqui é onde cada holder recem criado entra numa posição que aquele item deve representar
         Contato contatoAtual = listaContatos.get(position);
         holder.textViewNome.setText(contatoAtual.getNome());
         holder.textViewTelefone.setText(contatoAtual.getTelefone());
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount() { // primeira chamada
         return listaContatos.size();
     }
 
     public static class ContatoAdapterHolder extends RecyclerView.ViewHolder{
-
         TextView textViewNome;
         TextView textViewTelefone;
         public ContatoAdapterHolder(@NonNull View itemView){
