@@ -1,6 +1,9 @@
 package com.example.contatosandroid;
 
+import static android.widget.Toast.LENGTH_SHORT;
+
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,7 +42,27 @@ public class ListaContatosActivity extends AppCompatActivity {
         listaContatos.add(new Contato("Carla Souza", "31 98765-4321"));
 
         ContatoAdapter adapter = new ContatoAdapter(listaContatos);
-        binding.recyclerViewContatos.setAdapter(adapter);
-        binding.recyclerViewContatos.setLayoutManager(new LinearLayoutManager(this));
+        binding.recyclerViewContatos.setAdapter(adapter); // Diz "os dados e os itens visuais que você vai exibir vêm daqui"
+        binding.recyclerViewContatos.setLayoutManager(new LinearLayoutManager(this)); // Diz como os itens vão ser posicionados na tela — em lista vertical, horizontal, em grade, etc.
+
+        binding.buttonAdicionar.setOnClickListener( v -> {
+            String nome = binding.editTextNome.getText().toString();
+            String telefone = binding.editTextTelefone.getText().toString();
+
+            if(nome.isEmpty() || telefone.isEmpty()){
+                Toast.makeText(this,"Preencha os campos", LENGTH_SHORT).show();
+                return;
+            }
+
+            adapter.adicionarContatos(new Contato(nome, telefone));
+            Toast.makeText(this,"Contato adicionado", LENGTH_SHORT).show();
+
+            binding.editTextNome.setText("");
+            binding.editTextTelefone.setText("");
+        });
+
+
+
+
     }
 }

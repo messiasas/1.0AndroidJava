@@ -3,6 +3,7 @@ package com.example.contatosandroid;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -48,13 +49,34 @@ public class ContatoAdapter extends RecyclerView.Adapter<ContatoAdapter.ContatoA
         return listaContatos.size();
     }
 
-    public static class ContatoAdapterHolder extends RecyclerView.ViewHolder{
+    public class ContatoAdapterHolder extends RecyclerView.ViewHolder{
         TextView textViewNome;
         TextView textViewTelefone;
+        ImageButton buttonRemover;
+
         public ContatoAdapterHolder(@NonNull View itemView){
             super(itemView);
             textViewNome = itemView.findViewById(R.id.textViewNome);
             textViewTelefone = itemView.findViewById(R.id.textViewTelefone);
+            buttonRemover = itemView.findViewById(R.id.buttonRemover);
+
+            buttonRemover.setOnClickListener(v -> {
+                int position = getBindingAdapterPosition();
+                if(position != RecyclerView.NO_POSITION){   // proteção: evita erro se o item já estiver sendo removido
+                    removerContato(position);
+                }
+            });
+
+
         }
     }
+    public void removerContato(int position){
+        listaContatos.remove(position);
+        notifyItemRemoved(position);// avisa a RecyclerView: "esse item específico sumiu, anime a remoção"
+    }
+    public void adicionarContatos(Contato novoContato){
+        listaContatos.add(novoContato);
+        notifyItemInserted(listaContatos.size() - 1); // avisa a RecyclerView: "nasceu um item na última posição, desenhe só ele"
+    }
+
 }
